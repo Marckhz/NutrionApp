@@ -1,0 +1,27 @@
+{% extends 'Backoffice/home.html' %}
+
+
+{% block mainfeed %}
+<div class="container">
+  <div class="row" style="margin:50px;">
+    <div class="col  text-center">
+      <h2>Paciente: {{ object.firstname }}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4>Ultima consulta:{{ object.weight}}  </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4>Edad: {{ object.age }}</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4>Peso actual: </h4>
+    </div>
+  </div>
+</div>
+{% endblock %}

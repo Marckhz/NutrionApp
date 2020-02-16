@@ -1,0 +1,27 @@
+{% extends 'Backoffice/home.html' %}
+{% include 'Formulars/modal_calendar.html'  %}
+
+
+{% load static %}
+
+
+{% block mainfeed %}
+<div class="container-fluid" style="margin-top:100px;">
+  <div class="row">
+    <div class="col">
+      <h1>Hola {{ user }} el dia de hoy... </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <iframe src="https://calendar.google.com/calendar/embed?src={{ user.email }}&ctz=America%2FChihuahua" style="border: 0" width="700" height="600" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Agendar Cita</button>
+      {% include 'Formulars/modal_calendar.html'  %}
+    </div>
+  </div>
+</div>
+{% endblock %}

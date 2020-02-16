@@ -1,0 +1,34 @@
+{% extends 'Backoffice/home.html' %}
+
+
+{% block mainfeed %}
+<div class="container">
+  {% if patients|length == 0%}
+  <div class="row">
+    <div class="col">
+        <h3>No se encontro nada :( </h3>
+    </div>
+  </div>
+  <div>
+      {% else %}
+      <div class="row" style="margin-top:100px;">
+        <div class="col">
+          <h2>Encontramos los siguientes pacientes</h2>
+
+        </div>
+      </div>
+      {% for client in patients  %}
+      <div class="row border-top border-bottom" style="margin-top:25px;">
+        <div class="col">
+          <h5>Nombre: {{client.firstname}}</h5>
+          <h5>Apellido: {{client.lastname}}</h5>
+          <h5>Email: {{client.email}}</h5>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+
+</div>
+
+{% endblock %}

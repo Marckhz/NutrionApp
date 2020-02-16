@@ -1,0 +1,24 @@
+html, body{
+  height: 100%;
+}
+.asteriskField {
+    display: none;
+}
+
+.main-container{
+  height: 100%;
+}
+
+.menu-home{
+  padding: 25px;
+}
+
+
+.home-feed{
+  margin-top: 100px;
+}
+
+.menu-links{
+  text-decoration: none;
+  color:black;
+}

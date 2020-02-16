@@ -1,0 +1,26 @@
+{% extends 'Backoffice/home.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block mainfeed %}
+<div class="container">
+  <div class="row" style="margin-top:50px;">
+    <div class="col">
+      <h2 class="text-center">Creacion de Paciente</h2>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="row">
+          <div class="col text-center">
+            <button type="submit" class="btn btn-success " style="width:50%;">Aceptar</button>
+          </div>
+        </div>    </form>
+      {% endblock %}
+    </div>
+  </div>
+</div>

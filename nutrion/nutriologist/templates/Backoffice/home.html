@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="margin-top:100px;">
+      <div class="row menu-home">
+        <div class="col">
+        
+          <h1 class="text-center">NutriDex</h1>
+        </div>
+      </div>
+      <div class="row menu-home">
+        <div class="col-lg-4">
+          <i class="fas fa-home fa-3x"></i>
+        </div>
+        <div class="col-lg-4">
+          <a class="menu-links" href="{%url 'home_admin_view' %}"><h1>Inicio</h1></a>
+        </div>
+      </div>
+      <div class="row menu-home">
+        <div class="col-lg-4">
+          <i class="fas fa-address-book fa-3x"></i>
+        </div>
+        <div class="col-lg-2 ">
+          <a class="menu-links" href="{% url 'clients_admin_view' %}"><h1>Clientes</h1> </a>
+        </div>
+      </div>
+      <div class="row menu-home">
+        <div class="col-lg-4">
+          <i class="far fa-calendar-alt fa-3x"></i>
+        </div>
+        <div class="col-lg-2">
+          <a class="menu-links" href="{% url 'citas_admin_view' %}"><h1>Citas</h1></a>
+        </div>
+      </div>
+      <div class="row menu-home">
+        <div class="col-lg-12">
+          <a type="button"  href="{% url 'add_client_view' %}" class="btn btn-primary btn-lg btn-block" style="border-radius:200px;">Agregar Cliente</a>
+        </div>
+      </div>
+</div>
+{% endblock %}
+{% block mainfeed %}
+<div class="container ">
+  <div class="row home-feed">
+    <div class="col">
+      <h1>Hola {{user}} el dia de hoy... </h1>
+    </div>
+  </div>
+    {% for client in object_list %}
+    <div class="row border-top border-bottom" style="padding:25px;">
+      <div class="col-lg-12">
+      <h5>Asunto: {{ client.title }} </h5>
+      <h5>Paciente: {{ client.patient_name }}</h5>
+      <h5>Hora: {{ client.date_start }} </h5>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
