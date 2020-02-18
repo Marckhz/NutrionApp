@@ -5,8 +5,8 @@
 <div class="container">
   {% if patients|length == 0%}
   <div class="row">
-    <div class="col">
-        <h3>No se encontro nada :( </h3>
+    <div class="col text-center" style="margin-top:250px;">
+        <h1>No se encontro nada :( </h1>
     </div>
   </div>
   <div>
@@ -20,7 +20,7 @@
       {% for client in patients  %}
       <div class="row border-top border-bottom" style="margin-top:25px;">
         <div class="col">
-          <h5>Nombre: {{client.firstname}}</h5>
+          <a href="{% url 'single_client_view' pk=client.id %}"><h5>Nombre: {{client.firstname}}</h5></a>
           <h5>Apellido: {{client.lastname}}</h5>
           <h5>Email: {{client.email}}</h5>
         </div>

@@ -22,10 +22,10 @@ class Patients(models.Model):
     age = models.IntegerField()
     sex = models.CharField(max_length=1, choices=sex_choices)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.firstname = self.firstname.upper()
         self.lastname = self.lastname.upper()
-        return super().save()
+        return super().save(*args, **kwargs)
 
 
     #Crear metodo para normalizar Campos en busqueda de query
@@ -42,6 +42,11 @@ class PatientStats(models.Model):
     foreams = models.FloatField()
     date = models.DateField(default=datetime.date.today() )
 
+
+    def __str__(self):
+
+        return "%s" % (self.patient_name)
+
 class MealsPlan(models.Model):
 
     meals_file = models.FileField()
@@ -57,7 +62,6 @@ class Appointment(models.Model):
     #end_time = models.TimeField(null=True)
     place = models.TextField(null=True)
     description = models.TextField(null=True)
-
 
     def __str__(self):
 

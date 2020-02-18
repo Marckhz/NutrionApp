@@ -1,27 +1,59 @@
 {% extends 'Backoffice/home.html' %}
+{% load static %}
 
 
 {% block mainfeed %}
 <div class="container">
+{% for patient in query %}
   <div class="row" style="margin:50px;">
     <div class="col  text-center">
-      <h2>Paciente: {{ object.firstname }}</h2>
+
+      <h2>Paciente: {{ patient.patient_name }}</h2>
+      <hr>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <h4>Ultima consulta:{{ object.weight}}  </h4>
+      <h4>Ultima consulta: {{ patient.date }}  </h4>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <h4>Edad: {{ object.age }}</h4>
+      <h4>Edad: {{ patient.patient_name.age }}</h4>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <h4>Peso actual: </h4>
+      <h4>Peso actual: {{ patient.weight }} kg </h4>
+    </div>
+    <div class="col text-right">
+      <a  href="{% url 'new_consult_view' pk=patient.patient_name.id %}" type="button" class="btn btn-info">Consultar</a>
+    </div>
+  </div>
+  <hr>
+  <h3>Medidas</h3>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h4>Cintura: {{ patient.hip }} cm </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4>Antebrazo: {{ patient.foreams }} cm </h4>
+    </div>
+  </div>
+{% endfor %}
+<hr>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      {{plot_data|json_script:"hello-data"}}
+      <canvas id="myChart" width="400" height="250"></canvas>
+
     </div>
   </div>
 </div>
+
 {% endblock %}

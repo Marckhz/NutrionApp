@@ -30,7 +30,7 @@
   {% for client in object_list %}
   <div class="row border-top border-bottom" style="padding:25px;">
     <div class="col-lg-12">
-    <h5>{{ client.firstname }} </h5>
+    <a href="{% url 'single_client_view' pk=client.id %}"><h5>{{ client.firstname }} </h5></a>
     <h5> {{ client.lastname }}</h5>
     <h5>{{ client.email }} </h5>
     </div>

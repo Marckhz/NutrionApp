@@ -1,5 +1,6 @@
 import datetime
 from datetime import datetime,timezone, timedelta
+from datetime import date as d
 
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -35,13 +36,18 @@ from django.views.generic.detail import DetailView
 from .forms import LoginForm
 from .forms import SearchBarForm
 from .forms import GoogleCalendarForm
+from .forms import PatientStatsForm
+from .forms import AddClientForm
 
 from .models import Patients
 from .models import Appointment
 from .models import PatientStats
 
 # Create your views here.
-from .serializers import UserSerializer
+
+from collections import defaultdict
+
+#from .serializers import UserSerializer
 import json
 
 
@@ -113,8 +119,7 @@ class HomeAdminView(ListView):
 
     def get_queryset(self):
 
-        appointment = Appointment.objects.filter(nutriologist_id = self.request.user.id).order_by('date_start')#.select_related('patient_name')
-        print(appointment)
+        appointment = Appointment.objects.filter(nutriologist_id = self.request.user.id).filter(date_start__date = d.today() ).order_by('date_start')
 
         return appointment
 
@@ -132,7 +137,7 @@ class ClientsAdminView(FormMixin, ListView):
         return reverse_lazy('clients_search_view', args=[self.query_string])
 
     def get_queryset(self):
-        patients = Patients.objects.filter(nutrioligist_id=self.request.user.id)
+        patients = Patients.objects.filter(nutrioligist_id=self.request.user.id).order_by('id')
         return patients
 
     def post(self, request, *args, **kwargs):
@@ -222,6 +227,7 @@ class CalendarAdminView(View):
                     {'email':attendees.email}
                 ]
             }
+            print(new_event)
 
             #print(new_event)
             g.sing_in()
@@ -253,8 +259,11 @@ class AddClientAdminView(CreateView):
 
     template_name = 'Formulars/add_client.html'
     model = Patients
+    form_class = AddClientForm
 
-    fields = ['firstname','lastname','age', 'sex', 'cellphone', 'email']
+    def get(self, request):
+
+        return render(request, self.template_name, {'form':self.form_class,'title':'Creacion de Paciente'})
 
     def form_valid(self, form):
         #Creamos el objeto en memoria
@@ -267,14 +276,51 @@ class AddClientAdminView(CreateView):
     def get_success_url(self):
         return reverse_lazy('add_client_view')
 
-class SingleClientView(DetailView):
+class SingleClientView(View):
 
     template_name = 'Backoffice/Query/client_detail.html'
-    #patient_id = None
-    def get_queryset(self):
-        patients = Patients.objects.filter(nutrioligist_id=self.request.user.id)
-        #print(patients)
-        return patients
+
+    def get(self, request, pk):
+
+        plot_data = defaultdict(list)
+        query = PatientStats.objects.select_related('patient_name').filter(patient_name = pk).order_by('-id')
+
+        for data in query:
+            if data.weight:
+                plot_data['weight'].append(data.weight)
+            if data.date:
+                plot_data['date'].append(data.date)
+        #print(plot_data)
+        #print(self.request.pk)
+        return render(request, self.template_name, {'query':query[:1], 'plot_data':plot_data })
+
+class PatientStatsCreate(CreateView):
+
+    form_class = PatientStatsForm
+    template_name = 'Formulars/add_client.html'
+    current_object = None
+
+
+    def get(self, request, pk):
+        patient = Patients.objects.get(id=pk)
+        print(patient)
+        self.current_object  = pk
+        return render(request, self.template_name, {'form': self.form_class, 'patient':patient, 'title':'Nueva Consulta'})
+
+    def get_success_url(self):
+
+        return reverse_lazy('single_client_view', args=[self.kwargs['pk']])
+
+    def form_valid(self, form):
+        #Creamos el objeto en memoria
+        self.object = form.save(commit=False)
+        self.object.patient_name_id = self.kwargs['pk']
+        self.object.date = datetime.now()
+        self.object.save()
+
+        return super().form_valid(form)
+
+
 
 
 def logout_view(request):

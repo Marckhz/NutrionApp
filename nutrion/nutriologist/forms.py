@@ -1,5 +1,6 @@
 from django import forms
-from .models import Patients
+from django.forms import ModelForm
+from .models import Patients, PatientStats
 
 
 class LoginForm(forms.Form):
@@ -22,3 +23,14 @@ class GoogleCalendarForm(forms.Form):
     patient = forms.ModelChoiceField(queryset=Patients.objects.all() )
     location = forms.CharField()
     description = forms.CharField()
+
+class AddClientForm(forms.ModelForm):
+    class Meta:
+        model = Patients
+        fields = ['firstname','lastname','age', 'sex', 'cellphone', 'email']
+
+
+class PatientStatsForm(forms.ModelForm):
+    class Meta:
+        model = PatientStats
+        fields= ['hip', 'foreams', 'weight']

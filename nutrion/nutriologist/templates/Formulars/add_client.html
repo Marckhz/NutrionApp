@@ -6,7 +6,10 @@
 <div class="container">
   <div class="row" style="margin-top:50px;">
     <div class="col">
-      <h2 class="text-center">Creacion de Paciente</h2>
+      <h1 class="text-center">{{ title }}</h1>
+      {% if patient %}
+        <h2 class="text-center">{{ patient }}</h2>
+      {% endif %}
       <hr>
     </div>
   </div>

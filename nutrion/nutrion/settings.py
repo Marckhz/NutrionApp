@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nutriologist.apps.NutriologistConfig',
+    'shoppingcart.apps.ShoppingcartConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

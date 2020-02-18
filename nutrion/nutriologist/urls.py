@@ -14,5 +14,6 @@ urlpatterns =[
     path('clients/search/<str:query>/', views.ClientsAdminQueryView.as_view(), name='clients_search_view' ),
     path('home/add-client/', views.AddClientAdminView.as_view(), name='add_client_view'),
     path('clients/<int:pk>/', views.SingleClientView.as_view(), name='single_client_view'),
+    path('clients/consult/<int:pk>/', views.PatientStatsCreate.as_view(), name='new_consult_view' )
 
 ]
